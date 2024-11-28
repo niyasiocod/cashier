@@ -26,11 +26,18 @@ class CheckoutController extends Controller
 
         // Check if the price is recurring or one-time
         if (in_array($price_id, $recurringPrices)) {
+
+            // if($user->subscribed('default')) {
+            //     // If the user is already subscribed, cancel the existing plan now
+            //     $user->subscription('default')->cancelNowAndInvoice();
+            // }
             // Handle subscription plans
             return $user->newSubscription('default', $price_id)->checkout([
                 'success_url' => route('success'), // Ensure 'success' route is defined in web.php
                 'cancel_url' => route('dashboard'), // Ensure 'dashboard' route is defined in web.php
             ]);
+
+            
         } elseif ($price_id === $lifetimePrice) {
             // Handle one-time payment for Lifetime plan
             Stripe::setApiKey(config('cashier.secret')); // Use the Stripe secret key from your .env file
