@@ -28,4 +28,29 @@ class BillingController extends Controller
 
         return redirect()->route('dashboard')->with('status', 'Your subscription has been canceled.');
     }
+
+    /**
+     * Handle resubscribe request.
+     */
+    public function resubscribe(Request $request)
+    {
+        // Ensure the user is authenticated
+        $user = $request->user();
+
+        // Get the user's current subscription
+        $subscription = $user->subscription('default');
+
+        if ($subscription->onGracePeriod()) {
+            // Resume the subscription if it's canceled and in the grace period
+            try {
+                $subscription->resume();
+
+                return redirect()->route('dashboard')->with('success', 'Your subscription has been resumed!');
+            } catch (\Exception $e) {
+                return redirect()->route('dashboard')->with('error', 'Failed to resume the subscription. Please try again.');
+            }
+        }
+
+        return redirect()->route('dashboard')->with('error', 'No canceled subscription found to resume.');
+    }
 }

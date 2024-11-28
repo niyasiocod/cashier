@@ -48,5 +48,6 @@ Route::get('/billing/upgrade', [BillingController::class, 'showUpgradeForm'])->n
 
 Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
 
+Route::post('/billing/resubscribe', [BillingController::class, 'resubscribe'])->name('billing.resubscribe');
 
 require __DIR__.'/auth.php';
