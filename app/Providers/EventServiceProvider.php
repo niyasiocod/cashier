@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        ::class => [
+        WebhookReceived::class => [
             CashierWebhookReceivedEventListener::class,
         ],
         WebhookHandled::class => [
